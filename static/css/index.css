@@ -1,0 +1,7 @@
+nav {
+  background: var(--nav-gradient);
+}
+
+.button-nav {
+  background: var(--nav-button-gradient);
+}

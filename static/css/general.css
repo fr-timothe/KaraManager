@@ -1,0 +1,9 @@
+:root {
+    --nav-gradient: linear-gradient(180deg, #522258 50%, #8C3061 100%);
+    --nav-button-gradient: radial-gradient(circle, #D95F59 0%, #C63C51 100%);
+    --white-color: #dcdcdc;
+    --palette-1: #522258;
+    --palette-2: #8C3061;
+    --palette-3: #C63C51;
+    --palette-4: #D95F59;
+}
