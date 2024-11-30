@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="h-full w-full bg-[--palette-3] flex flex-col">
+  <div class="w-full p-7 flex flex-col space-y-3">
+    <span class="great-title">Vos salles</span>
+    <div class="w-full h-1 bg-[--palette-1] rounded-lg "></div>
+  </div>
+  <div class="w-full h-full flex flex-row flex-wrap content-start justify-center gap-12 px-7 overflow-auto">
+    <a href="#" class="flex flex-col justify-center items-center w-[500px] h-[250px] rounded-3xl background-imaged" style="background-image: url(https://images.unsplash.com/photo-1581182861167-7f28e1141396);">
+        <span class="base-text text-[--palette-1] text-5xl">Salle: Kpop</span>
+        <span class="base-text text-[--palette-1] text-2xl">ID: 1</span>
+    </a>
+    <a href="#" class="flex flex-col justify-center items-center w-[500px] h-[250px] rounded-3xl background-imaged" style="background-image: url(https://images.unsplash.com/photo-1581182861167-7f28e1141396);">
+        <span class="base-text text-[--palette-1] text-5xl">Salle: Kpop</span>
+        <span class="base-text text-[--palette-1] text-2xl">ID: 1</span>
+    </a>
+    <a href="#" class="flex flex-col justify-center items-center w-[500px] h-[250px] rounded-3xl background-imaged" style="background-image: url(https://images.unsplash.com/photo-1581182861167-7f28e1141396);">
+        <span class="base-text text-[--palette-1] text-5xl">Salle: Kpop</span>
+        <span class="base-text text-[--palette-1] text-2xl">ID: 1</span>
+    </a>
+    <a href="#" class="flex flex-col justify-center items-center w-[500px] h-[250px] rounded-3xl" style="background-color: #b1b2b5;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12 text-[--palette-1]">
+            <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM12.75 12a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V18a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V12Z" clip-rule="evenodd" />
+            <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
+        </svg>
+        <span class="base-text text-[--palette-1] text-2xl">Ajouter une salle</span>
+    </a>
+  </div>
+</section>
+{% endblock %}

@@ -1,3 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,700;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: "Rubik", sans-serif;
+  vertical-align: baseline;
+}
+
 :root {
     --nav-gradient: linear-gradient(180deg, #522258 50%, #8C3061 100%);
     --nav-button-gradient: radial-gradient(circle, #D95F59 0%, #C63C51 100%);
@@ -6,4 +98,44 @@
     --palette-2: #8C3061;
     --palette-3: #C63C51;
     --palette-4: #D95F59;
+}
+
+.great-title{
+    color: var(--white-color);
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 36px;
+}
+
+.important-title{
+    color: var(--white-color);
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 72px;
+}
+
+.base-text{
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+nav {
+  background: var(--nav-gradient);
+}
+
+.button-nav {
+  background: var(--nav-button-gradient);
+}
+
+.background-imaged{
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
