@@ -1,7 +1,7 @@
-from flask import Flask
+from flask import Flask, render_template
 
 main=Flask(__name__)
 
 @app.route('/')
 def welcome ():
-    return "Bienvenue!"
+    return render_template('index.html')
