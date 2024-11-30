@@ -108,3 +108,34 @@ video {
     font-style: normal;
     font-size: 36px;
 }
+
+.important-title{
+    color: var(--white-color);
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 72px;
+}
+
+.base-text{
+    font-family: "Rubik", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+nav {
+  background: var(--nav-gradient);
+}
+
+.button-nav {
+  background: var(--nav-button-gradient);
+}
+
+.background-imaged{
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
