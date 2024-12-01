@@ -54,6 +54,10 @@ class DatabaseManager:
     def get_client(self, id):
         return self.curseur.execute(f"SELECT * FROM clients WHERE id={id}").fetchone()
     
+    def del_clients(self, id):
+       self.curseur.execute(f"DELETE FROM clients WHERE id={id}")
+       self.connexion.commit()
+    
     def add_orders(self, id, id_salles, id_clients, nbr_heure, date_reservation ):
         self.curseur.execute(f"INSERT INTO reservation VALUES (NULL, '{id}', '{id_salles}','{id_clients}',{nbr_heure}','{date_reservation}') ")
         self.connexion.commit()
@@ -62,10 +66,11 @@ class DatabaseManager:
         return self.curseur.execute("SELECT * FROM orders").fetchall()
     
     def del_orders(self, id):
-        return self.curseur.execute(f"DELETE FROM orders WHERE id={id}").fetchone()
+        self.curseur.execute(f"DELETE FROM orders WHERE id={id}")
     
     def get_order(self, id, id_clients, date_reservation):
         return self.curseur.execute(f"SELECT {date_reservation} FROM orders JOIN clients ON {id_clients}.orders={id.clients}.clients").fetchone()
     
-    def max_id(self, id):
-        return self.curseur.execute(f"SELECT MAX({id}) FROM clients").fetchall()
+    def record_exists(self, table, id):
+        self.curseur.execute(f"SELECT 1 FROM {table} WHERE id=?", (id,))
+        return self.curseur.fetchone() is not None

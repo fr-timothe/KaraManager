@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for, flash, redirect
 from database_manager import DatabaseManager
 
 app = Flask(__name__)
@@ -17,6 +17,29 @@ def rooms():
 @app.route('/clients')
 def clients():
     return render_template('clients.html', attributes=db_manager.get_attrubutes("clients"), clients=db_manager.get_clients())
+
+@app.route('/clients/<int:id>')
+def client(id):
+    if db_manager.record_exists("clients", id):
+        return render_template('info_client.html', client_info=db_manager.get_client(id))
+    else:
+        return redirect(url_for('clients'))
+    
+@app.route('/clients/<int:id>/delete', methods=('GET', 'POST'))
+def delete_client(id):
+    if request.method == 'POST':
+        db_manager.del_clients(id)
+        return redirect(url_for('clients'))
+    else:
+        return render_template('delete_client.html', client_id=id)
+
+@app.route('/clients/create', methods=('GET', 'POST'))
+def create_client():
+    if request.method == 'POST':
+        db_manager.add_client(request.form['nom'], request.form['prenom'], request.form['email'], request.form['telephone'])
+        return redirect(url_for('clients'))
+    else:
+        return render_template('create_client.html')
 
 @app.route('/orders')
 def orders():

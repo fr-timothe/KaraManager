@@ -10,7 +10,7 @@
     <table class="w-full">
         <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
             Vos clients
-            <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Vous pouvez ici consulter vos clients et modifier leurs profiles. Si il n'existe pas, <a href="#" class="font-medium text-blue-600 hover:underline">ajoutez</a> le a votre base de données.</p>
+            <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Vous pouvez ici consulter vos clients et modifier leurs profiles. Si il n'existe pas, <a href="{{url_for('create_client')}}" class="font-medium text-blue-600 hover:underline">ajoutez</a> le a votre base de données.</p>
         </caption>
         <thead class="text-base base-text uppercase bg-[--palette-1] text-[--white-color]">
             <tr>
@@ -33,7 +33,7 @@
               </th>
             {% endfor %}
             <td class="px-6 py-4">
-              <a href="#" class="font-medium text-blue-600 hover:underline">Editer</a>
+              <a href="{{ url_for('client', id=client[0]) }}" class="font-medium text-blue-600 hover:underline">Editer</a>
             </td>
           </tr>
           {% endfor %}
