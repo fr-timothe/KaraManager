@@ -1,0 +1,54 @@
+import sqlite3
+
+class DatabaseManager:
+    def __init__(self):
+        self.connexion = sqlite3.connect("lycee.sqlite3")
+        self.curseur = self.connexion.cursor()
+        self.create_tables()
+
+    def create_tables(self):
+        self.curseur.execute("""
+        CREATE TABLE IF NOT EXISTS clients (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nom TEXT,
+            prenom TEXT,
+            email TEXT,
+            telephone TEXT
+        )
+        """)
+        self.curseur.execute("""
+        CREATE TABLE IF NOT EXISTS rooms (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nom_salle TEXT,
+            nbr_places INT,
+            prix_heure FLOAT
+        )
+        """)
+        self.curseur.execute("""
+        CREATE TABLE IF NOT EXISTS orders (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_client INT,
+            id_salle INT,
+            nbr_heure INT,
+            date_reservation TEXT,
+            FOREIGN KEY(id_client) REFERENCES clients(id),
+            FOREIGN KEY(id_salle) REFERENCES rooms(id)
+        )
+        """)
+        self.connexion.commit()
+
+    def arbitrary_query(self, query):
+        self.curseur.execute(query)
+        self.connexion.commit()
+
+    def add_client(self, nom, prenom, email, telephone):
+        self.curseur.execute(f"INSERT INTO clients VALUES (NULL, '{nom}', '{prenom}', '{email}', '{telephone}')")
+        self.connexion.commit()
+
+    def get_clients(self):
+        self.curseur.execute("SELECT * FROM clients")
+        return self.curseur.fetchall()
+    
+    def get_client(self, id):
+        self.curseur.execute(f"SELECT * FROM clients WHERE id={id}")
+        return self.curseur.fetchone()

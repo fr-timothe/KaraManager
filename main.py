@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from database_manager import DatabaseManager
 
 app = Flask(__name__)
 en_salle=10
@@ -25,4 +26,6 @@ def infos():
     return render_template('infos.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    db_manager = DatabaseManager()
+    print(db_manager.get_client(1))
