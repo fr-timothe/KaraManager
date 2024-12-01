@@ -4,7 +4,41 @@
 <section class="h-full w-full bg-[--palette-3] flex flex-col">
   <div class="w-full p-7 flex flex-col space-y-3">
     <span class="great-title">Vos clients</span>
-    <div class="w-full h-1 bg-[--palette-1] rounded-lg "></div>
+    <div class="w-full h-1 bg-[--palette-1] rounded-lg"></div>
   </div>
+<div class="h-full w-full px-7">
+    <table class="w-full">
+        <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            Vos clients
+            <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Vous pouvez ici consulter vos clients et modifier leurs profiles. Si il n'existe pas, <a href="#" class="font-medium text-blue-600 hover:underline">ajoutez</a> le a votre base de données.</p>
+        </caption>
+        <thead class="text-base base-text uppercase bg-[--palette-1] text-[--white-color]">
+            <tr>
+              {% for attribut in attributes %}
+                <th scope="col" class="px-6 py-3">
+                    <span>{{ attribut[1] }}</span>
+                </th>
+              {% endfor %}
+                <th scope="col" class="px-6 py-3">
+                    <span class="sr-only">Editer</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-sm">
+          {% for client in clients %}
+          <tr class="bg-[--palette-2] border-b text-[--white-color]">
+            {% for attribut in client %}
+              <th scope="row" class="px-6 py-4">
+                  <span>{{ attribut }}</span>
+              </th>
+            {% endfor %}
+            <td class="px-6 py-4">
+              <a href="#" class="font-medium text-blue-600 hover:underline">Editer</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
 </section>
 {% endblock %}

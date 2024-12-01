@@ -2,11 +2,11 @@ import sqlite3
 
 class DatabaseManager:
     def __init__(self):
-        self.connexion = sqlite3.connect("lycee.sqlite3")
+        self.connexion = sqlite3.connect("lycee.sqlite3", check_same_thread=False)
         self.curseur = self.connexion.cursor()
-        self.create_tables()
+        self.setup()
 
-    def create_tables(self):
+    def setup(self):
         self.curseur.execute("""
         CREATE TABLE IF NOT EXISTS clients (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -36,6 +36,9 @@ class DatabaseManager:
         )
         """)
         self.connexion.commit()
+    
+    def get_attrubutes(self, table):
+        return self.curseur.execute(f"PRAGMA table_info({table})").fetchall()
 
     def arbitrary_query(self, query):
         self.curseur.execute(query)
@@ -46,9 +49,11 @@ class DatabaseManager:
         self.connexion.commit()
 
     def get_clients(self):
-        self.curseur.execute("SELECT * FROM clients")
-        return self.curseur.fetchall()
+        return self.curseur.execute("SELECT * FROM clients").fetchall()
     
     def get_client(self, id):
-        self.curseur.execute(f"SELECT * FROM clients WHERE id={id}")
-        return self.curseur.fetchone()
+        return self.curseur.execute(f"SELECT * FROM clients WHERE id={id}").fetchall()
+
+db = DatabaseManager()
+print(db.get_attrubutes("clients"))
+print(db.get_clients())
