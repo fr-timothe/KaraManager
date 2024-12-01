@@ -66,3 +66,6 @@ class DatabaseManager:
     
     def get_order(self, id, id_clients, date_reservation):
         return self.curseur.execute(f"SELECT {date_reservation} FROM orders JOIN clients ON {id_clients}.orders={id.clients}.clients").fetchone()
+    
+    def max_id(self, id):
+        return self.curseur.execute(f"SELECT MAX({id}) FROM clients").fetchall()
