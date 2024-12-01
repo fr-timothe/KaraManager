@@ -59,4 +59,10 @@ class DatabaseManager:
 
     def get_orders(self):
         self.curseur.execute("SELECT * FROM orders")
-        self.curseur.fetchall()
+        return self.curseur.fetchall()
+    
+    def del_orders(self, id):
+        self.curseur.execute(f"DELETE FROM orders WHERE id={id}")
+        return self.curseur.fetchone()
+    
+    
