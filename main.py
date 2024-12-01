@@ -20,7 +20,7 @@ def clients():
 
 @app.route('/orders')
 def orders():
-    return render_template('orders.html')
+    return render_template('orders.html', attributes=db_manager.get_attrubutes("orders"), clients=db_manager.get_orders())
 
 @app.route('/infos')
 def infos():

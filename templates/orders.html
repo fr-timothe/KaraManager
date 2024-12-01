@@ -6,5 +6,39 @@
     <span class="great-title">Vos commandes</span>
     <div class="w-full h-1 bg-[--palette-1] rounded-lg "></div>
   </div>
+  <div class="h-full w-full px-7">
+    <table class="w-full">
+        <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+            Vos commandes
+            <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Vous pouvez ici consulter vos commandes et les modifier si besoin. Pour créer une commande, cliquez ic: <a href="#" class="font-medium text-blue-600 hover:underline">Créer une commande</a>.</p>
+        </caption>
+        <thead class="text-base base-text uppercase bg-[--palette-1] text-[--white-color]">
+            <tr>
+              {% for attribut in attributes %}
+                <th scope="col" class="px-6 py-3">
+                    <span>{{ attribut[1] }}</span>
+                </th>
+              {% endfor %}
+                <th scope="col" class="px-6 py-3">
+                    <span class="sr-only">Editer</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-sm">
+          {% for order in orders %}
+          <tr class="bg-[--palette-2] border-b text-[--white-color]">
+            {% for attribut in order %}
+              <th scope="row" class="px-6 py-4">
+                  <span>{{ attribut }}</span>
+              </th>
+            {% endfor %}
+            <td class="px-6 py-4">
+              <a href="#" class="font-medium text-blue-600 hover:underline">Editer</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
 </section>
 {% endblock %}
