@@ -52,8 +52,19 @@ class DatabaseManager:
         return self.curseur.execute("SELECT * FROM clients").fetchall()
     
     def get_client(self, id):
-        return self.curseur.execute(f"SELECT * FROM clients WHERE id={id}").fetchall()
+        self.curseur.execute(f"SELECT * FROM clients WHERE id={id}")
+        return self.curseur.fetchone()
+    
+    def add_orders(self, id, id_salles, id_clients, nbr_heure, date_reservation ):
+        self.curseur.execute(f"INSERT INTO reservation VALUES (NULL, '{id}', '{id_salles}','{id_clients}',{nbr_heure}','{date_reservation}') ")
+        self.connexion.commit()
 
-db = DatabaseManager()
-print(db.get_attrubutes("clients"))
-print(db.get_clients())
+    def get_orders(self):
+        self.curseur.execute("SELECT * FROM orders")
+        return self.curseur.fetchall()
+    
+    def del_orders(self, id):
+        self.curseur.execute(f"DELETE FROM orders WHERE id={id}")
+        return self.curseur.fetchone()
+    
+    
