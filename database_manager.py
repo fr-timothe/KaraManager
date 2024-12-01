@@ -63,3 +63,6 @@ class DatabaseManager:
     
     def del_orders(self, id):
         return self.curseur.execute(f"DELETE FROM orders WHERE id={id}").fetchone()
+    
+    def get_order(self, id, id_clients, date_reservation):
+        return self.curseur.execute(f"SELECT {date_reservation} FROM orders JOIN clients ON {id_clients}.orders={id.clients}.clients").fetchone()
