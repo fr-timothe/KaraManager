@@ -12,26 +12,29 @@ def index():
 
 @app.route('/rooms')
 def rooms():
-    return render_template('rooms.html')
+    return render_template('rooms/list.html')
 
 @app.route('/clients')
 def clients():
-    return render_template('clients.html', attributes=db_manager.get_attrubutes("clients"), clients=db_manager.get_clients())
+    return render_template('clients/list.html', attributes=db_manager.get_attrubutes("clients"), clients=db_manager.get_clients())
 
 @app.route('/clients/<int:id>')
 def client(id):
     if db_manager.record_exists("clients", id):
-        return render_template('info_client.html', client_info=db_manager.get_client(id))
+         return render_template('clients/info.html', client_info=db_manager.get_client(id))
     else:
         return redirect(url_for('clients'))
     
 @app.route('/clients/<int:id>/delete', methods=('GET', 'POST'))
 def delete_client(id):
     if request.method == 'POST':
-        db_manager.del_clients(id)
-        return redirect(url_for('clients'))
+        if db_manager.record_exists("clients", id):
+            db_manager.del_clients(id)
+            return redirect(url_for('clients'))
+        else:
+            return redirect(url_for('clients'))
     else:
-        return render_template('delete_client.html', client_id=id)
+        return render_template('clients/delete.html', client_id=id)
 
 @app.route('/clients/create', methods=('GET', 'POST'))
 def create_client():
@@ -39,11 +42,11 @@ def create_client():
         db_manager.add_client(request.form['nom'], request.form['prenom'], request.form['email'], request.form['telephone'])
         return redirect(url_for('clients'))
     else:
-        return render_template('create_client.html')
+        return render_template('clients/create.html')
 
 @app.route('/orders')
 def orders():
-    return render_template('orders.html', attributes=db_manager.get_attrubutes("orders"), clients=db_manager.get_orders())
+    return render_template('orders/list.html', attributes=db_manager.get_attrubutes("orders"), clients=db_manager.get_orders())
 
 @app.route('/infos')
 def infos():
