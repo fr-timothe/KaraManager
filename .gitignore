@@ -6,3 +6,4 @@ dev.nix
 /dist
 /build
 main.spec
+other.txt
