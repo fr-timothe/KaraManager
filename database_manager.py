@@ -44,9 +44,19 @@ class DatabaseManager:
         self.curseur.execute(query)
         self.connexion.commit()
 
-    def add_client(self, nom, prenom, email, telephone):
-        self.curseur.execute(f"INSERT INTO clients VALUES (NULL, '{nom}', '{prenom}', '{email}', '{telephone}')")
+    def get_rooms(self):
+        return self.curseur.execute("SELECT * FROM rooms").fetchall()
+    
+    def get_room(self, id):
+        return self.curseur.execute(f"SELECT * FROM rooms WHERE id={id}").fetchone()
+    
+    def add_room(self, nom_salle, nbr_places, prix_heure):
+        self.curseur.execute("INSERT INTO rooms (nom_salle, nbr_places, prix_heure) VALUES (?, ?, ?)", (nom_salle, nbr_places, prix_heure))
         self.connexion.commit()
+
+    def del_room(self, id):
+       self.curseur.execute(f"DELETE FROM rooms WHERE id={id}")
+       self.connexion.commit()
 
     def get_clients(self):
         return self.curseur.execute("SELECT * FROM clients").fetchall()
@@ -54,7 +64,11 @@ class DatabaseManager:
     def get_client(self, id):
         return self.curseur.execute(f"SELECT * FROM clients WHERE id={id}").fetchone()
     
-    def del_clients(self, id):
+    def add_client(self, nom, prenom, email, telephone):
+        self.curseur.execute("INSERT INTO clients (nom, prenom, email, telephone) VALUES (?, ?, ?, ?)", (nom, prenom, email, telephone))
+        self.connexion.commit()
+    
+    def del_client(self, id):
        self.curseur.execute(f"DELETE FROM clients WHERE id={id}")
        self.connexion.commit()
     
