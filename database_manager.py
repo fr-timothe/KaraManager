@@ -12,8 +12,8 @@ class DatabaseManager:
         self.curseur.execute("""
         CREATE TABLE IF NOT EXISTS clients (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nom TEXT,
-            prenom TEXT,
+            nom TEXT NOT NULL,
+            prenom TEXT NOT NULL,
             email TEXT,
             telephone TEXT
         )
@@ -21,17 +21,17 @@ class DatabaseManager:
         self.curseur.execute("""
         CREATE TABLE IF NOT EXISTS rooms (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nom_salle TEXT,
-            nbr_places INT,
-            prix_heure FLOAT
+            nom_salle TEXT NOT NULL,
+            nbr_places INT NOT NULL,
+            prix_heure FLOAT NOT NULL
         )
         """)
         self.curseur.execute("""
         CREATE TABLE IF NOT EXISTS orders (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            id_client INT,
-            id_salle INT,
-            nbr_heure INT,
+            id_client INT NOT NULL,
+            id_salle INT NOT NULL,
+            nbr_heure INT NOT NULL,
             date_reservation TEXT,
             FOREIGN KEY(id_client) REFERENCES clients(id),
             FOREIGN KEY(id_salle) REFERENCES rooms(id)
