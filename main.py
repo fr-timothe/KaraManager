@@ -58,15 +58,22 @@ def clients():
     # Route pour afficher la liste des clients
     return render_template('clients/list.html', attributes=db_manager.get_attrubutes("clients"), clients=db_manager.get_clients())
 
-@app.route('/clients/<int:id>')
+@app.route('/clients/<int:id>', methods=('GET', 'POST'))
 def client(id):
-    # Route pour afficher les détails d'un client spécifique
-    if db_manager.record_exists("clients", id):
-        # Si le client existe, afficher ses détails
-        return render_template('clients/info.html', client_info=db_manager.get_client(id))
+    if request.method == 'POST':
+        if db_manager.record_exists("clients", id):
+            db_manager.update_client(id, request.form['nom'], request.form['prenom'], request.form['email'], request.form['telephone'])
+            return redirect(url_for('clients'))
+        else:
+            return redirect(url_for('clients'))
     else:
-        # Sinon, rediriger vers la liste des clients
-        return redirect(url_for('clients'))
+        # Route pour afficher les détails d'un client spécifique
+        if db_manager.record_exists("clients", id):
+            # Si le client existe, afficher ses détails
+            return render_template('clients/info.html', client_info=db_manager.get_client(id))
+        else:
+            # Sinon, rediriger vers la liste des clients
+            return redirect(url_for('clients'))
 
 @app.route('/clients/create', methods=('GET', 'POST'))
 def create_client():
