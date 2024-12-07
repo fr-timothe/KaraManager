@@ -82,6 +82,11 @@ class DatabaseManager:
         # Ajoute un nouveau client
         self.curseur.execute("INSERT INTO clients (nom, prenom, email, telephone) VALUES (?, ?, ?, ?)", (nom, prenom, email, telephone))
         self.connexion.commit()
+
+
+    def client_exist(self, nom:str, prenom:str):
+        self.curseur.execute("SELECT * FROM clients WHERE nom=? AND prenom=?", (nom, prenom))
+        return self.curseur.fetchone()
     
     def del_client(self, id:int):
         # Supprime un client par son ID

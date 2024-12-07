@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="h-full w-full bg-[--palette-3] flex">
+  <div class="h-full w-full p-7 flex flex-col space-y-3">
+    <div class="flex flex-col">
+      <div class="flex flex-row justify-between">
+       <span class="great-title">Créer une commande</span>
+        <a href="{{ url_for('orders') }}" class="text-rose-800 flex flex-row justify-center items-center space-x-3" title="Retour à la liste des clients">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span class="text-2xl">
+            Retour
+          </span>
+        </a>
+      </div>
+      <div class="w-full h-1 bg-[--palette-1] rounded-lg "></div>
+    </div>
+    <div class="h-full w-full flex space-x-24">
+        <div class="w-full h-5/12 bg-[--palette-2] rounded-xl flex flex-col p-7">
+            <span class="great-title mb-6">Ajouter une commande client</span>
+            <form id="main-form" class="overflow-x-auto" method="post">
+                <div class="mb-6">
+                    <label for="nom" class="block mb-2 text-sm font-medium text-white">Nom</label>
+                    <input type="text" id="nom" name="nom" list="noms" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" placeholder="Nom" required/>
+                    <datalist id="noms">
+                      {% for client in clients %}
+                        <option value="{{ client[1] }}">
+                      {% endfor %}
+                    </datalist>
+                </div>
+                <div class="mb-6">
+                    <label for="prenom" class="block mb-2 text-sm font-medium text-white">Prenom</label>
+                    <input type="text" id="prenom" name="prenom" list="prenoms" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" placeholder="Prenom" required/>
+                    <datalist id="prenoms">
+                      {% for client in clients %}
+                        <option value="{{ client[1] }}">
+                      {% endfor %}
+                    </datalist>
+                </div>
+                <div class="mb-6">
+                    <label for="email" class="block mb-2 text-sm font-medium text-white">Email</label>
+                    <input type="email" id="email" name="email" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" placeholder="placeholder@gmail.com"/>
+                </div>
+                <div class="mb-6">
+                    <label for="telephone" class="block mb-2 text-sm font-medium text-white">Telephone</label>
+                    <input type="tel" id="telephone" autocomplete="tel" name="telephone" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" placeholder="+33 0 00 00 00 00"/>
+                </div>
+                <div class="flex flex-row space-x-5">
+                  <button type="submit" class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Appliquer</button>
+                  <button onclick='document.getElementById("main-form").reset();' class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-red-600 hover:bg-red-700 focus:ring-red-800">Annuler</button>
+                </div>
+            </form>
+        </div>  
+    </div>
+  </div>
+</section>
+{% endblock %}
