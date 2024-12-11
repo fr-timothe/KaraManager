@@ -113,19 +113,19 @@ def delete_client(id):
 @app.route('/orders')
 def orders():
     # Route pour afficher la liste des commandes
-    return render_template('orders/list.html', attributes=db_manager.get_attrubutes("orders"), clients=db_manager.get_orders())
+    return render_template('orders/list.html', attributes=db_manager.get_attrubutes("orders"), orders=db_manager.get_orders())
 
 @app.route('/orders/create', methods=('GET', 'POST'))
 def create_order():
-    # Route pour créer une nouvelle salle
+    # Route pour créer une nouvelle commande
     if request.method == 'POST':
-        # Si la méthode est POST, ajouter la salle avec les données du formulaire
-        data = {"date": request.form['date']}
-        return jsonify(data)
+        # Si la méthode est POST, ajouter la commande avec les données du formulaire
+        if db_manager.client_exist(request.form['nom'], request.form['prenom']):
+            db_manager.add_order(db_manager.client_exist(request.form['nom'], request.form['prenom'])[0], request.form['salle'], request.form['nbr_heure'], f"{request.form['date']} {request.form['heure']}")
+        return redirect(url_for('orders'))
     else:
-        # Sinon, afficher le formulaire de création de salle
+        # Sinon, afficher le formulaire de création de commande
         temp_data = {"date": date_manager.date_now(), "heure": date_manager.hour_now()}
-        print(temp_data)
         return render_template('orders/create.html', clients=db_manager.get_clients(), rooms=db_manager.get_rooms(), data=temp_data)
 
 @app.route('/infos')

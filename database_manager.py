@@ -97,9 +97,9 @@ class DatabaseManager:
         self.curseur.execute("UPDATE clients SET nom=?, prenom=?, email=?, telephone=? WHERE id=?", (nom, prenom, email, telephone, id))
         self.connexion.commit()
 
-    def add_orders(self, id:int, id_salles:int, id_clients:int, nbr_heure:int, date_reservation:str ):
+    def add_order(self, id_client:int, id_salle:int, nbr_heure:int, date_reservation:str):
         # Ajoute une nouvelle commande
-        self.curseur.execute(f"INSERT INTO reservation VALUES (NULL, '{id}', '{id_salles}','{id_clients}',{nbr_heure}','{date_reservation}') ")
+        self.curseur.execute("INSERT INTO orders (id_client, id_salle, nbr_heure, date_reservation) VALUES (?, ?, ?, ?)", (id_client, id_salle, nbr_heure, date_reservation))
         self.connexion.commit()
 
     def get_orders(self):

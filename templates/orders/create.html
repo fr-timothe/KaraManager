@@ -39,7 +39,7 @@
                     <label for="salle" class="block mb-2 text-sm font-medium text-white">Salle choisi</label>
                     <select id="salle" name="salle" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white">
                         {% for room in rooms %}
-                        <option value="{{ room[1] }}">{{ room[1] }}</option>
+                        <option value="{{ room[0] }}">{{ room[1] }}</option>
                         {% endfor %}
                     </select>
                   </div>
