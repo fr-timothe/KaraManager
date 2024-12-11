@@ -15,7 +15,7 @@ class DatabaseManager:
             nom TEXT NOT NULL,
             prenom TEXT NOT NULL,
             email TEXT,
-            telephone TEXT
+            telephone TEXT NOT NULL
         )
         """)
         self.curseur.execute("""
@@ -110,7 +110,7 @@ class DatabaseManager:
         # Supprime une commande par son ID
         self.curseur.execute(f"DELETE FROM orders WHERE id={id}")
     
-    def get_order(self, id:int, id_clients:int, date_reservation:int):
+    def get_client_order(self, id:int, id_clients:int, date_reservation:int):
         # Récupère une commande spécifique
         return self.curseur.execute(f"SELECT {date_reservation} FROM orders JOIN clients ON {id_clients}.orders={id.clients}.clients").fetchone()
     

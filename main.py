@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, jsonify, redirect
 from database_manager import DatabaseManager
+import date_manager
 
 app = Flask(__name__)
 db_manager = DatabaseManager()
@@ -119,17 +120,19 @@ def create_order():
     # Route pour créer une nouvelle salle
     if request.method == 'POST':
         # Si la méthode est POST, ajouter la salle avec les données du formulaire
-        db_manager.add_room(request.form['nom_salle'], request.form['nbr_places'], request.form['prix_heure'])
-        return redirect(url_for('orders'))
+        data = {"date": request.form['date']}
+        return jsonify(data)
     else:
         # Sinon, afficher le formulaire de création de salle
-        return render_template('orders/create.html', clients=db_manager.get_clients(), rooms=db_manager.get_rooms())
+        temp_data = {"date": date_manager.date_now(), "heure": date_manager.hour_now()}
+        print(temp_data)
+        return render_template('orders/create.html', clients=db_manager.get_clients(), rooms=db_manager.get_rooms(), data=temp_data)
 
 @app.route('/infos')
 def infos():
     # Route pour afficher des informations générales
     return render_template('infos.html')
 
-#if __name__ == '__main__':
+if __name__ == '__main__':
     # Démarrage de l'application Flask en mode debug
-    #app.run(debug=True)
+    app.run(debug=True)
