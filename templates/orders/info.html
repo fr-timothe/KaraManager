@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="h-full w-full bg-[--palette-3] flex">
+  <div class="h-full w-full p-7 flex flex-col space-y-3">
+    <div class="flex flex-col">
+      <div class="flex flex-row justify-between">
+       <span class="great-title">Informations de commande</span>
+        <a href="{{ url_for('orders') }}" class="text-rose-800 flex flex-row justify-center items-center space-x-3" title="Retour à la liste des clients">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span class="text-2xl">
+            Retour
+          </span>
+        </a>
+      </div>
+      <div class="w-full h-1 bg-[--palette-1] rounded-lg "></div>
+    </div>
+    <div class="h-full w-full flex space-x-24">
+        <div class="w-full h-5/12 bg-[--palette-2] rounded-xl flex flex-col p-7">
+            <span class="great-title mb-6">Modifier et consulter ses informations</span>
+            <form id="main-form" class="overflow-x-auto" method="post">
+              <div class="flex flex-row w-full space-x-6">
+                <div class="mb-6 w-full">
+                  <label for="nom" class="block mb-2 text-sm font-medium text-white">Nom</label>
+                  <input type="text" id="nom" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white cursor-not-allowed" value="{{order_info[0]}}" disabled readonly/>
+                </div>
+                <div class="mb-6 w-full">
+                  <label for="prenom" class="block mb-2 text-sm font-medium text-white">Prenom</label>
+                  <input type="text" id="prenom" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white cursor-not-allowed" value="{{order_info[1]}}" disabled readonly/>
+                </div>
+              </div>
+              <div class="flex flex-row w-full space-x-6">
+                <div class="mb-6 w-full">
+                  <label for="salle" class="block mb-2 text-sm font-medium text-white">Salle choisi</label>
+                  <select id="salle" name="salle" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white">
+                      {% for room in rooms %}
+                      {% if order_info[2] == room[0] %}
+                        <option value="{{ room[0] }}" selected>{{ room[1] }}</option>
+                      {% else %}
+                        <option value="{{ room[0] }}">{{ room[1] }}</option>
+                      {% endif %}
+                      {% endfor %}
+                  </select>
+                </div>
+                <div class="mb-6 w-full">
+                  <label for="nbr_heure" class="block mb-2 text-sm font-medium text-white">Nombre d'heure(s)</label>
+                  <input type="number" id="nbr_heure" name="nbr_heure" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" placeholder="Nombre d'heure(s)" value="{{ order_info[3] }}" required/>
+                </div>
+              </div>
+              <div class="flex flex-row w-full space-x-6">
+                <div class="mb-6 w-full">
+                  <label for="date" class="block mb-2 text-sm font-medium text-white">Date de réservation</label>
+                  <input type="date" id="date" name="date" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" value="{{ order_info[4] }}" required/>
+                </div>
+                <div class="mb-6 w-full">
+                  <label for="heure" class="block mb-2 text-sm font-medium text-white">Heure de réservation</label>
+                  <input type="time" id="heure" name="heure" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" value="{{ order_info[5] }}" required/>
+                </div>
+              </div>
+              <div class="flex flex-row space-x-5">
+                <button type="submit" class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Appliquer</button>
+                <button onclick='document.getElementById("main-form").reset();' class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-red-600 hover:bg-red-700 focus:ring-red-800">Annuler</button>
+                <a href="{{ url_for('delete_order', id=order_info[6]) }}" class="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-red-600 hover:bg-red-700 focus:ring-red-800">Supprimer la commande</a>
+              </div>
+          </form>
+        </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

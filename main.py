@@ -115,6 +115,27 @@ def orders():
     # Route pour afficher la liste des commandes
     return render_template('orders/list.html', attributes=db_manager.get_attrubutes("orders"), orders=db_manager.get_orders())
 
+@app.route('/orders/<int:id>', methods=('GET', 'POST'))
+def order(id):
+    if request.method == 'POST':
+        if db_manager.record_exists("orders", id):
+            db_manager.update_orders(id, request.form['salle'], request.form['nbr_heure'], f"{request.form['date']} {request.form['heure']}")
+            return redirect(url_for('orders'))
+        else:
+            return redirect(url_for('orders'))
+    else:
+        # Route pour afficher les détails d'un client spécifique
+        if db_manager.record_exists("orders", id):
+            # Si le client existe, afficher ses détails
+            client_info = db_manager.get_client(id)
+            order_data = db_manager.get_order(id)
+            order_date = date_manager.date_to_datetime(order_data[4])
+            order = [client_info[1], client_info[2], order_data[2], order_data[3], order_date.strftime("%Y-%m-%d"), order_date.strftime("%H:%M"), order_data[0]]
+            return render_template('orders/info.html', order_info=order, rooms=db_manager.get_rooms())
+        else:
+            # Sinon, rediriger vers la liste des clients
+            return redirect(url_for('orders'))
+
 @app.route('/orders/create', methods=('GET', 'POST'))
 def create_order():
     # Route pour créer une nouvelle commande
@@ -125,8 +146,24 @@ def create_order():
         return redirect(url_for('orders'))
     else:
         # Sinon, afficher le formulaire de création de commande
-        temp_data = {"date": date_manager.date_now(), "heure": date_manager.hour_now()}
-        return render_template('orders/create.html', clients=db_manager.get_clients(), rooms=db_manager.get_rooms(), data=temp_data)
+        datetime = {"date": date_manager.date_now(), "heure": date_manager.hour_now()}
+        return render_template('orders/create.html', clients=db_manager.get_clients(), rooms=db_manager.get_rooms(), data=datetime)
+
+@app.route('/orders/<int:id>/delete', methods=('GET', 'POST'))
+def delete_order(id):
+    # Route pour supprimer un client
+    if request.method == 'POST':
+        # Si la méthode est POST, vérifier si le client existe
+        if db_manager.record_exists("orders", id):
+            # Si le client existe, le supprimer
+            db_manager.del_orders(id)
+            return redirect(url_for('orders'))
+        else:
+            # Sinon, rediriger vers la liste des clients
+            return redirect(url_for('orders'))
+    else:
+        # Sinon, afficher le formulaire de suppression de client
+        return render_template('orders/delete.html', order_id=id)
 
 @app.route('/infos')
 def infos():

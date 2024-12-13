@@ -83,7 +83,6 @@ class DatabaseManager:
         self.curseur.execute("INSERT INTO clients (nom, prenom, email, telephone) VALUES (?, ?, ?, ?)", (nom, prenom, email, telephone))
         self.connexion.commit()
 
-
     def client_exist(self, nom:str, prenom:str):
         self.curseur.execute("SELECT * FROM clients WHERE nom=? AND prenom=?", (nom, prenom))
         return self.curseur.fetchone()
@@ -105,10 +104,18 @@ class DatabaseManager:
     def get_orders(self):
         # Récupère toutes les commandes
         return self.curseur.execute("SELECT * FROM orders").fetchall()
+
+    def get_order(self, id:int):
+        # Récupère un client par son ID
+        return self.curseur.execute(f"SELECT * FROM orders WHERE id={id}").fetchone()
     
     def del_orders(self, id:int):
         # Supprime une commande par son ID
         self.curseur.execute(f"DELETE FROM orders WHERE id={id}")
+
+    def update_orders(self, id:int, id_salle:int, nbr_heure:int, date_reservation:str):
+        self.curseur.execute("UPDATE orders SET id_salle=?, nbr_heure=?, date_reservation=? WHERE id=?", (id_salle, nbr_heure, date_reservation, id))
+        self.connexion.commit()
     
     def get_client_order(self, id:int, id_clients:int, date_reservation:int):
         # Récupère une commande spécifique

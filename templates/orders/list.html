@@ -33,7 +33,7 @@
               </th>
             {% endfor %}
             <td class="px-6 py-4">
-              <a href="#" class="font-medium text-blue-600 hover:underline">Editer</a>
+              <a href="{{ url_for('order', id=order[0]) }}" class="font-medium text-blue-600 hover:underline">Editer</a>
             </td>
           </tr>
           {% endfor %}
