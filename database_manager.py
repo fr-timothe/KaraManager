@@ -118,9 +118,15 @@ class DatabaseManager:
         self.curseur.execute("UPDATE orders SET id_salle=?, nbr_heure=?, date_reservation=? WHERE id=?", (id_salle, nbr_heure, date_reservation, id))
         self.connexion.commit()
     
-    def get_client_order(self, id:int, id_clients:int, date_reservation:int):
-        # Récupère une commande spécifique
-        return self.curseur.execute("SELECT date_reservation FROM orders JOIN clients ON ",(id_clients.orders==id.clients.clients)).fetchone()
+    def get_client_order(self, id):
+        sorted_orders = []
+        date_now=date_manager.date_time_now()
+        order_day = self.curseur.execute("SELECT * FROM orders WHERE id_client=? AND date_reservation LIKE ?", (id, date_manager.date_now() + '%',)).fetchall()
+        for order in order_day:
+            if date_manager.date_to_datetime(order[4]) > date_manager.date_to_datetime(date_now):
+                temp = [order[0], order[1], self.get_room(order[2])[1], order[3], order[4]]
+                sorted_orders.append(temp)
+        return sorted_orders
 
     def get_next_orders(self):
         sorted_orders = []
