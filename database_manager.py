@@ -120,7 +120,7 @@ class DatabaseManager:
     
     def get_client_order(self, id:int, id_clients:int, date_reservation:int):
         # Récupère une commande spécifique
-        return self.curseur.execute("SELECT date_reservation FROM orders JOIN clients ON ",(id_clients.orders=id.clients.clients)).fetchone()
+        return self.curseur.execute("SELECT date_reservation FROM orders JOIN clients ON ",(id_clients.orders==id.clients.clients)).fetchone()
 
     def get_next_orders(self):
         sorted_orders = []
