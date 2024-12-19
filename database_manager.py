@@ -137,5 +137,5 @@ class DatabaseManager:
 
     def record_exists(self, table:str, id:int):
         # Vérifie si un enregistrement existe dans une table par son ID
-        self.curseur.execute(f"SELECT 1 FROM {table} WHERE id=?", (id,))
+        self.curseur.execute("SELECT 1 FROM table WHERE id=?", (id))
         return self.curseur.fetchone() is not None
