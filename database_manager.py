@@ -1,4 +1,5 @@
 import sqlite3
+import date_manager
 
 class DatabaseManager:
     def __init__(self):
@@ -120,7 +121,20 @@ class DatabaseManager:
     def get_client_order(self, id:int, id_clients:int, date_reservation:int):
         # Récupère une commande spécifique
         return self.curseur.execute(f"SELECT {date_reservation} FROM orders JOIN clients ON {id_clients}.orders={id.clients}.clients").fetchone()
-    
+
+    def get_next_orders(self):
+        sorted_orders = []
+        date_now=date_manager.date_time_now()
+        order_day = self.curseur.execute("SELECT * FROM orders WHERE date_reservation LIKE ?", (date_manager.date_now() + '%',)).fetchall()
+        for order in order_day:
+            if date_manager.date_to_datetime(order[4]) > date_manager.date_to_datetime(date_now):
+                client = self.get_client(order[1])
+                client_name = f"{client[1]} {client[2]}"
+                temp = [order[0], client_name, self.get_room(order[2])[1], order[3], order[4]]
+                sorted_orders.append(temp)
+        return sorted_orders
+        
+
     def record_exists(self, table:str, id:int):
         # Vérifie si un enregistrement existe dans une table par son ID
         self.curseur.execute(f"SELECT 1 FROM {table} WHERE id=?", (id,))

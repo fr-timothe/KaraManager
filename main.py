@@ -4,13 +4,11 @@ import date_manager
 
 app = Flask(__name__)
 db_manager = DatabaseManager()
-en_salle = 10
-total_argent = 3350
 
 @app.route('/')
 def index():
     # Route pour la page d'accueil
-    return render_template('index.html', en_salle=en_salle, total_argent=total_argent)
+    return render_template('index.html', orders=db_manager.get_next_orders())
 
 @app.route('/rooms')
 def rooms():
@@ -127,9 +125,9 @@ def order(id):
         # Route pour afficher les détails d'un client spécifique
         if db_manager.record_exists("orders", id):
             # Si le client existe, afficher ses détails
-            client_info = db_manager.get_client(id)
             order_data = db_manager.get_order(id)
             order_date = date_manager.date_to_datetime(order_data[4])
+            client_info = db_manager.get_client(order_data[1])
             order = [client_info[1], client_info[2], order_data[2], order_data[3], order_date.strftime("%Y-%m-%d"), order_date.strftime("%H:%M"), order_data[0]]
             return render_template('orders/info.html', order_info=order, rooms=db_manager.get_rooms())
         else:
@@ -146,7 +144,7 @@ def create_order():
         return redirect(url_for('orders'))
     else:
         # Sinon, afficher le formulaire de création de commande
-        datetime = {"date": date_manager.date_now(), "heure": date_manager.hour_now()}
+        datetime = {"date": date_manager.date_now(), "heure": date_manager.hour_now_round()}
         return render_template('orders/create.html', clients=db_manager.get_clients(), rooms=db_manager.get_rooms(), data=datetime)
 
 @app.route('/orders/<int:id>/delete', methods=('GET', 'POST'))

@@ -55,7 +55,7 @@
                   </div>
                   <div class="mb-6 w-full">
                     <label for="heure" class="block mb-2 text-sm font-medium text-white">Heure de réservation</label>
-                    <input type="time" id="heure" name="heure" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" value="{{ data['heure'] }}" min="{{ data['heure'] }}" step="1800" required/>
+                    <input type="time" id="heure" name="heure" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white" value="{{ data['heure'] }}" min="{{ data['heure'] }}" step="3600" required/>
                   </div>
                 </div>
                 <div class="flex flex-row space-x-5">
@@ -67,4 +67,7 @@
     </div>
   </div>
 </section>
+<script>
+  console.log("{{ data['heure'] }}")
+</script>
 {% endblock %}

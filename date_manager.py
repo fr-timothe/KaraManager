@@ -5,6 +5,9 @@ def date_now():
     
 def hour_now():
     return datetime.datetime.now().strftime("%H:%M")
+
+def hour_now_round():
+    return datetime.datetime.now().strftime("%H:00")
     
 def date_time_now():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M")

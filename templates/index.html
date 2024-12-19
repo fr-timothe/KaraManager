@@ -1,29 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="h-full w-full bg-[--palette-3] flex">
-  <div class="h-full w-5/12 p-7 flex flex-col space-y-3">
-    <span class="great-title">Prochaines Commanndes</span>
+<section class="h-full w-full bg-[--palette-3] flex flex-col">
+  <div class="w-full p-7 flex flex-col space-y-3">
+    <span class="great-title">Prochaines commandes de la journée</span>
     <div class="w-full h-1 bg-[--palette-1] rounded-lg "></div>
-    <div class="w-full h-full bg-[--palette-2] rounded-xl"></div>
   </div>
-  <div class="h-full w-7/12 flex flex-col p-7 space-y-3">
-    <div class="h-2/5 w-full flex flex-col space-y-3">
-      <span class="great-title">Prochaines Commanndes</span>
-      <div class="w-full h-1 bg-[--palette-1] rounded-lg "></div>
-      <div class="w-full h-full bg-[--palette-2] rounded-xl flex flex-col justify-center items-center">
-        <span class="important-title">{{en_salle}}</span>
-        <span class="great-title">Clients en salles</span>
-      </div>
-    </div>
-    <div class="h-3/5 w-full flex flex-col space-y-3">
-      <span class="great-title">Total Journalier</span>
-      <div class="w-full h-1 bg-[--palette-1] rounded-lg "></div>
-      <div class="w-full h-full bg-[--palette-2] rounded-xl flex flex-col justify-center items-center">
-        <span class="important-title">{{total_argent}}€</span>
-        <span class="great-title">De commandes ce jour-ci</span>
-      </div>
-    </div>
-  </div>
+  <div class="h-full w-full px-7">
+    <table class="w-full">
+        <thead class="text-base base-text uppercase bg-[--palette-1] text-[--white-color]">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                  <span>ID de la commande</span>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <span>Nom du client</span>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <span>Nom de la salle</span>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <span>Nombre d'heure</span>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <span>Heure de résarvation</span>
+                </th>
+                <th scope="col" class="px-6 py-3">
+                  <span class="sr-only">Lien</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="text-sm">
+          {% for order in orders %}
+          <tr class="bg-[--palette-2] border-b text-[--white-color]">
+            {% for attribut in order %}
+              <th scope="row" class="px-6 py-4">
+                  <span>{{ attribut }}</span>
+              </th>
+            {% endfor %}
+            <td class="px-6 py-4">
+              <a href="{{ url_for('order', id=order[0]) }}" class="font-medium text-blue-600 hover:underline">Editer</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+</div>
 </section>
 {% endblock %}
