@@ -112,7 +112,7 @@ class DatabaseManager:
     
     def del_orders(self, id:int):
         # Supprime une commande par son ID
-        self.curseur.execute("DELETE FROM orders WHERE id=?"(id))
+        self.curseur.execute("DELETE FROM orders WHERE id=?"(id,))
 
     def update_orders(self, id:int, id_salle:int, nbr_heure:int, date_reservation:str):
         self.curseur.execute("UPDATE orders SET id_salle=?, nbr_heure=?, date_reservation=? WHERE id=?", (id_salle, nbr_heure, date_reservation, id))
@@ -124,8 +124,7 @@ class DatabaseManager:
         order_day = self.curseur.execute("SELECT * FROM orders WHERE id_client=? AND date_reservation LIKE ?", (id, date_manager.date_now() + '%',)).fetchall()
         for order in order_day:
             if date_manager.date_to_datetime(order[4]) > date_manager.date_to_datetime(date_now):
-                temp = [order[0], order[1], self.get_room(order[2])[1], order[3], order[4]]
-                sorted_orders.append(temp)
+                sorted_orders.append([order[0], order[1], self.get_room(order[2])[1], order[3], order[4]])
         return sorted_orders
 
     def get_next_orders(self):
@@ -136,10 +135,8 @@ class DatabaseManager:
             if date_manager.date_to_datetime(order[4]) > date_manager.date_to_datetime(date_now):
                 client = self.get_client(order[1])
                 client_name = f"{client[1]} {client[2]}"
-                temp = [order[0], client_name, self.get_room(order[2])[1], order[3], order[4]]
-                sorted_orders.append(temp)
+                sorted_orders.append([order[0], client_name, self.get_room(order[2])[1], order[3], order[4]])
         return sorted_orders
-        
 
     def record_exists(self, table:str, id:int):
         # Vérifie si un enregistrement existe dans une table par son ID
