@@ -42,7 +42,7 @@ class DatabaseManager:
     
     def get_attrubutes(self, table:str):
         # Récupère les informations des colonnes d'une table
-        return self.curseur.execute("PRAGMA table_info(?)"(table)).fetchall()
+        return self.curseur.execute(f"PRAGMA table_info({table})").fetchall()
 
     def arbitrary_query(self, query):
         # Exécute une requête SQL arbitraire
@@ -55,7 +55,7 @@ class DatabaseManager:
     
     def get_room(self, id:int):
         # Récupère une salle par son ID
-        return self.curseur.execute("SELECT * FROM rooms WHERE id=?"(id)).fetchone()
+        return self.curseur.execute(f"SELECT * FROM rooms WHERE id={id}").fetchone()
     
     def add_room(self, nom_salle:str, nbr_places:int, prix_heure:float):
         # Ajoute une nouvelle salle
@@ -64,7 +64,7 @@ class DatabaseManager:
 
     def del_room(self, id:int):
         # Supprime une salle par son ID
-       self.curseur.execute("DELETE FROM rooms WHERE id=?"(id))
+       self.curseur.execute(f"DELETE FROM rooms WHERE id={id}")
        self.connexion.commit()
     
     def update_room(self, id:int, nom_salle:str, nbr_places:int, prix_heure:float):
@@ -77,7 +77,7 @@ class DatabaseManager:
     
     def get_client(self, id:int):
         # Récupère un client par son ID
-        return self.curseur.execute("SELECT * FROM clients WHERE id=?"(id)).fetchone()
+        return self.curseur.execute(f"SELECT * FROM clients WHERE id={id}").fetchone()
     
     def add_client(self, nom:str, prenom:str, email:str="NULL", telephone:str="NULL"):
         # Ajoute un nouveau client
@@ -90,7 +90,7 @@ class DatabaseManager:
     
     def del_client(self, id:int):
         # Supprime un client par son ID
-       self.curseur.execute("DELETE FROM clients WHERE id=?"(id))
+       self.curseur.execute(f"DELETE FROM clients WHERE id={id}")
        self.connexion.commit()
     
     def update_client(self, id:int, nom:str, prenom:str, email:str="NULL", telephone:str="NULL"):
@@ -108,24 +108,19 @@ class DatabaseManager:
 
     def get_order(self, id:int):
         # Récupère un client par son ID
-        return self.curseur.execute("SELECT * FROM orders WHERE id=?"(id)).fetchone()
+        return self.curseur.execute(f"SELECT * FROM orders WHERE id={id}").fetchone()
     
     def del_orders(self, id:int):
         # Supprime une commande par son ID
-        self.curseur.execute("DELETE FROM orders WHERE id=?"(id,))
+        self.curseur.execute(f"DELETE FROM orders WHERE id={id}")
 
     def update_orders(self, id:int, id_salle:int, nbr_heure:int, date_reservation:str):
         self.curseur.execute("UPDATE orders SET id_salle=?, nbr_heure=?, date_reservation=? WHERE id=?", (id_salle, nbr_heure, date_reservation, id))
         self.connexion.commit()
     
-    def get_client_order(self, id):
-        sorted_orders = []
-        date_now=date_manager.date_time_now()
-        order_day = self.curseur.execute("SELECT * FROM orders WHERE id_client=? AND date_reservation LIKE ?", (id, date_manager.date_now() + '%',)).fetchall()
-        for order in order_day:
-            if date_manager.date_to_datetime(order[4]) > date_manager.date_to_datetime(date_now):
-                sorted_orders.append([order[0], order[1], self.get_room(order[2])[1], order[3], order[4]])
-        return sorted_orders
+    def get_client_order(self, id:int, id_clients:int, date_reservation:int):
+        # Récupère une commande spécifique
+        return self.curseur.execute(f"SELECT {date_reservation} FROM orders JOIN clients ON {id_clients}.orders={id.clients}.clients").fetchone()
 
     def get_next_orders(self):
         sorted_orders = []
@@ -135,10 +130,12 @@ class DatabaseManager:
             if date_manager.date_to_datetime(order[4]) > date_manager.date_to_datetime(date_now):
                 client = self.get_client(order[1])
                 client_name = f"{client[1]} {client[2]}"
-                sorted_orders.append([order[0], client_name, self.get_room(order[2])[1], order[3], order[4]])
+                temp = [order[0], client_name, self.get_room(order[2])[1], order[3], order[4]]
+                sorted_orders.append(temp)
         return sorted_orders
+        
 
     def record_exists(self, table:str, id:int):
         # Vérifie si un enregistrement existe dans une table par son ID
-        self.curseur.execute("SELECT 1 FROM table WHERE id=?", (id))
+        self.curseur.execute(f"SELECT 1 FROM {table} WHERE id=?", (id,))
         return self.curseur.fetchone() is not None
